@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knights of Columbus Breakfast Sign-Up</title>
+    <style>
+        :root {
+            --kofc-blue: #003366;
+            --kofc-gold: #FFC72C;
+            --light-bg: #f4f6f9;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 3px solid var(--kofc-gold);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            color: var(--kofc-blue);
+            margin: 0 0 10px 0;
+        }
+
+        .event-details {
+            font-size: 1.1em;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--kofc-blue);
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: var(--kofc-blue);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #002244;
+        }
+
+        .roster-section {
+            margin-top: 40px;
+        }
+
+        .roster-section h2 {
+            color: var(--kofc-blue);
+            border-bottom: 2px solid var(--kofc-blue);
+            padding-bottom: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: var(--kofc-blue);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .no-signups {
+            text-align: center;
+            color: #777;
+            font-style: italic;
+            padding: 20px;
+        }
+
+        .clear-btn {
+            background-color: #a71d2a;
+            margin-top: 20px;
+            width: auto;
+            float: right;
+            font-size: 0.85rem;
+            padding: 8px 12px;
+        }
+
+        .clear-btn:hover {
+            background-color: #76000d;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Knights of Columbus Breakfast</h1>
+        <div class="event-details">
+            📅 Event Date: Sunday, October 4th | ⏰ Shifts: 7:00 AM – 1:00 PM
+        </div>
+    </header>
+
+    <!-- Sign-Up Form -->
+    <form id="signupForm">
+        <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" placeholder="Enter your full name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="role">Select Volunteer Role</label>
+            <select id="role" required>
+                <option value="" disabled selected>-- Select a Role --</option>
+                <option value="Cooking">Cooking</option>
+                <option value="Drinks">Drinks</option>
+                <option value="Servers">Servers</option>
+                <option value="Cashier">Cashier</option>
+                <option value="Clean Up">Clean Up</option>
+                <option value="Working the Floor">Working the Floor</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="shift">Select Shift Time</label>
+            <select id="shift" required>
+                <option value="" disabled selected>-- Select a 2-Hour Shift --</option>
+                <option value="7:00 AM - 9:00 AM">7:00 AM - 9:00 AM</option>
+                <option value="9:00 AM - 11:00 AM">9:00 AM - 11:00 AM</option>
+                <option value="11:00 AM - 1:00 PM">11:00 AM - 1:00 PM</option>
+            </select>
+        </div>
+
+        <button type="submit">Sign Up Now</button>
+    </form>
+
+    <!-- Roster / Who Has Signed Up -->
+    <div class="roster-section">
+        <h2>Volunteer Roster</h2>
+        <table id="rosterTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Shift</th>
+                </tr>
+            </thead>
+            <tbody id="rosterBody">
+                <!-- Dynamically populated via JavaScript -->
+            </tbody>
+        </table>
+        <div id="noDataMessage" class="no-signups">No volunteers have signed up yet. Be the first!</div>
+        <button class="clear-btn" id="clearRoster">Reset Roster</button>
+        <div style="clear: both;"></div>
+    </div>
+</div>
+
+<script>
+    const form = document.getElementById('signupForm');
+    const rosterBody = document.getElementById('rosterBody');
+    const noDataMessage = document.getElementById('noDataMessage');
+    const clearBtn = document.getElementById('clearRoster');
+
+    // Load existing signups from LocalStorage
+    function loadSignups() {
+        const signups = JSON.parse(localStorage.getItem('kofc_signups')) || [];
+        rosterBody.innerHTML = '';
+
+        if (signups.length === 0) {
+            noDataMessage.style.display = 'block';
+        } else {
+            noDataMessage.style.display = 'none';
+            signups.forEach(signup => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${escapeHtml(signup.name)}</strong></td>
+                    <td>${escapeHtml(signup.role)}</td>
+                    <td>${escapeHtml(signup.shift)}</td>
+                `;
+                rosterBody.appendChild(row);
+            });
+        }
+    }
+
+    // Helper to prevent HTML injection
+    function escapeHtml(text) {
+        return text.replace(/[&<>"']/g, function(m) {
+            return {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            }[m];
+        });
+    }
+
+    // Handle Form Submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const name = document.getElementById('fullName').value.trim();
+        const role = document.getElementById('role').value;
+        const shift = document.getElementById('shift').value;
+
+        if (name && role && shift) {
+            const signups = JSON.parse(localStorage.getItem('kofc_signups')) || [];
+            signups.push({ name, role, shift });
+            localStorage.setItem('kofc_signups', JSON.stringify(signups));
+
+            form.reset();
+            loadSignups();
+            alert(`Thank you, ${name}! You are signed up for ${role} (${shift}).`);
+        }
+    });
+
+    // Clear Roster Data
+    clearBtn.addEventListener('click', function() {
+        if (confirm('Are you sure you want to clear all volunteer sign-ups?')) {
+            localStorage.removeItem('kofc_signups');
+            loadSignups();
+        }
+    });
+
+    // Initial Load
+    loadSignups();
+</script>
+
+</body>
+</html>
