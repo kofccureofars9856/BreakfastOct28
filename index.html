@@ -10,6 +10,7 @@
             --kofc-gold: #FFC72C;
             --light-bg: #f4f6f9;
             --text-color: #333;
+            --danger-red: #d9534f;
         }
 
         body {
@@ -21,7 +22,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 850px;
             margin: 0 auto;
             background: #ffffff;
             padding: 30px;
@@ -51,14 +52,15 @@
             margin-bottom: 20px;
         }
 
-        label {
+        label.main-label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
             color: var(--kofc-blue);
+            font-size: 1.1rem;
         }
 
-        input[type="text"], select {
+        input[type="text"] {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
@@ -67,20 +69,52 @@
             font-size: 1rem;
         }
 
-        button {
+        /* Shift Grid Table */
+        .shift-grid {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .shift-grid th, .shift-grid td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .shift-grid th {
+            background-color: var(--kofc-blue);
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        .shift-grid td:first-child {
+            text-align: left;
+            font-weight: bold;
+            background-color: #f9f9f9;
+        }
+
+        .shift-grid input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        button.submit-btn {
             background-color: var(--kofc-blue);
             color: white;
             border: none;
-            padding: 12px 20px;
-            font-size: 1rem;
+            padding: 14px 20px;
+            font-size: 1.1rem;
             font-weight: bold;
             border-radius: 4px;
             cursor: pointer;
             width: 100%;
+            margin-top: 15px;
             transition: background 0.2s;
         }
 
-        button:hover {
+        button.submit-btn:hover {
             background-color: #002244;
         }
 
@@ -94,24 +128,24 @@
             padding-bottom: 8px;
         }
 
-        table {
+        .roster-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 15px;
         }
 
-        th, td {
+        .roster-table th, .roster-table td {
             text-align: left;
             padding: 12px;
             border-bottom: 1px solid #ddd;
         }
 
-        th {
+        .roster-table th {
             background-color: var(--kofc-blue);
             color: white;
         }
 
-        tr:nth-child(even) {
+        .roster-table tr:nth-child(even) {
             background-color: #f9f9f9;
         }
 
@@ -122,17 +156,37 @@
             padding: 20px;
         }
 
-        .clear-btn {
-            background-color: #a71d2a;
-            margin-top: 20px;
-            width: auto;
-            float: right;
-            font-size: 0.85rem;
-            padding: 8px 12px;
+        /* Admin Styles */
+        .admin-badge {
+            display: none;
+            background-color: var(--kofc-gold);
+            color: var(--kofc-blue);
+            padding: 4px 8px;
+            font-weight: bold;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+            vertical-align: middle;
         }
 
-        .clear-btn:hover {
-            background-color: #76000d;
+        .admin-btn {
+            padding: 4px 8px;
+            margin-right: 4px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 3px;
+        }
+
+        .btn-edit { background-color: #f0ad4e; color: white; }
+        .btn-delete { background-color: var(--danger-red); color: white; }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.8rem;
+            color: #aaa;
+            user-select: none;
         }
     </style>
 </head>
@@ -149,64 +203,106 @@
     <!-- Sign-Up Form -->
     <form id="signupForm">
         <div class="form-group">
-            <label for="fullName">Full Name</label>
+            <label for="fullName" class="main-label">1. Your Full Name</label>
             <input type="text" id="fullName" placeholder="Enter your full name" required>
         </div>
 
         <div class="form-group">
-            <label for="role">Select Volunteer Role</label>
-            <select id="role" required>
-                <option value="" disabled selected>-- Select a Role --</option>
-                <option value="Cooking">Cooking</option>
-                <option value="Drinks">Drinks</option>
-                <option value="Servers">Servers</option>
-                <option value="Cashier">Cashier</option>
-                <option value="Clean Up">Clean Up</option>
-                <option value="Working the Floor">Working the Floor</option>
-            </select>
+            <label class="main-label">2. Select Your Shift(s) & Role(s)</label>
+            <p style="font-size:0.9rem; color:#666; margin-top:-5px;">Check as many shifts and roles as you are willing to help with!</p>
+            
+            <table class="shift-grid">
+                <thead>
+                    <tr>
+                        <th>Role</th>
+                        <th>7:00 AM - 9:00 AM</th>
+                        <th>9:00 AM - 11:00 AM</th>
+                        <th>11:00 AM - 1:00 PM</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Cooking</td>
+                        <td><input type="checkbox" name="shiftSlot" value="Cooking|7:00 AM - 9:00 AM"></td>
+                        <td><input type="checkbox" name="shiftSlot" value="Cooking|9:00 AM - 11:00 AM"></td>
+                        <td><input type="checkbox" name="shiftSlot" value="Cooking|11:00 AM - 1:00 PM"></td>
+                    </tr>
+                    <tr>
+                        <td>Drinks</td>
+                        <td><input type="checkbox" name="shiftSlot" value="Drinks|7:00 AM - 9:00 AM"></td>
+                        <td><input type="checkbox" name="shiftSlot" value="Drinks|9:00 AM - 11:00 AM"></td>
+                        <td><input type="checkbox" name="shiftSlot" value="Drinks|11:00 AM - 1:00 PM"></td>
+                    </tr>
+                    <tr>
+                        <td>Servers</td>
+                        <td><input type="checkbox" name="shiftSlot" value="Servers|7:00 AM - 9:00 AM"></td>
+                        <td><input type="checkbox" name="shiftSlot" value="Servers|9:00 AM - 11:00 AM"></td>
+                        <td><input type="checkbox" name="shiftSlot" value="Servers|11:00 AM - 1:00 PM"></td>
+                    </tr>
+                    <tr>
+                        <td>Cashier</td>
+                        <td><input type="checkbox" name="shiftSlot" value="Cashier|7:00 AM - 9:00 AM"></td>
+                        <td><input type="checkbox" name="shiftSlot" value="Cashier|9:00 AM - 11:00 AM"></td>
+                        <td><input type="checkbox" name="shiftSlot" value="Cashier|11:00 AM - 1:00 PM"></td>
+                    </tr>
+                    <tr>
+                        <td>Clean Up</td>
+                        <td><input type="checkbox" name="shiftSlot" value="Clean Up|7:00 AM - 9:00 AM"></td>
+                        <td><input type="checkbox" name="shiftSlot" value="Clean Up|9:00 AM - 11:00 AM"></td>
+                        <td><input type="checkbox" name="shiftSlot" value="Clean Up|11:00 AM - 1:00 PM"></td>
+                    </tr>
+                    <tr>
+                        <td>Working the Floor</td>
+                        <td><input type="checkbox" name="shiftSlot" value="Working the Floor|7:00 AM - 9:00 AM"></td>
+                        <td><input type="checkbox" name="shiftSlot" value="Working the Floor|9:00 AM - 11:00 AM"></td>
+                        <td><input type="checkbox" name="shiftSlot" value="Working the Floor|11:00 AM - 1:00 PM"></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
-        <div class="form-group">
-            <label for="shift">Select Shift Time</label>
-            <select id="shift" required>
-                <option value="" disabled selected>-- Select a 2-Hour Shift --</option>
-                <option value="7:00 AM - 9:00 AM">7:00 AM - 9:00 AM</option>
-                <option value="9:00 AM - 11:00 AM">9:00 AM - 11:00 AM</option>
-                <option value="11:00 AM - 1:00 PM">11:00 AM - 1:00 PM</option>
-            </select>
-        </div>
-
-        <button type="submit">Sign Up Now</button>
+        <button type="submit" class="submit-btn">Complete Sign-Up</button>
     </form>
 
     <!-- Roster / Who Has Signed Up -->
     <div class="roster-section">
-        <h2>Volunteer Roster</h2>
-        <table id="rosterTable">
+        <h2>
+            Volunteer Roster 
+            <span id="adminBadge" class="admin-badge">ADMIN MODE ACTIVE</span>
+        </h2>
+        <table class="roster-table" id="rosterTable">
             <thead>
                 <tr>
                     <th>Name</th>
                     <th>Role</th>
                     <th>Shift</th>
+                    <th id="adminHeader" style="display:none;">Actions</th>
                 </tr>
             </thead>
             <tbody id="rosterBody">
-                <!-- Dynamically populated via JavaScript -->
+                <!-- Dynamically populated -->
             </tbody>
         </table>
-        <div id="noDataMessage" class="no-signups">No volunteers have signed up yet. Be the first!</div>
-        <button class="clear-btn" id="clearRoster">Reset Roster</button>
-        <div style="clear: both;"></div>
+        <div id="noDataMessage" class="no-signups">No volunteers have signed up yet.</div>
     </div>
+
+    <footer>
+        <span id="secretTrigger" style="cursor:pointer;">&copy; Knights of Columbus Council Volunteer Portal</span>
+    </footer>
 </div>
 
 <script>
+    const SECRET_PIN = "1882"; // Change this passcode if desired
+    let isAdmin = false;
+
     const form = document.getElementById('signupForm');
     const rosterBody = document.getElementById('rosterBody');
     const noDataMessage = document.getElementById('noDataMessage');
-    const clearBtn = document.getElementById('clearRoster');
+    const adminBadge = document.getElementById('adminBadge');
+    const adminHeader = document.getElementById('adminHeader');
+    const secretTrigger = document.getElementById('secretTrigger');
 
-    // Load existing signups from LocalStorage
+    // Load signups from LocalStorage
     function loadSignups() {
         const signups = JSON.parse(localStorage.getItem('kofc_signups')) || [];
         rosterBody.innerHTML = '';
@@ -215,57 +311,115 @@
             noDataMessage.style.display = 'block';
         } else {
             noDataMessage.style.display = 'none';
-            signups.forEach(signup => {
+            signups.forEach((signup, index) => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td><strong>${escapeHtml(signup.name)}</strong></td>
                     <td>${escapeHtml(signup.role)}</td>
                     <td>${escapeHtml(signup.shift)}</td>
+                    ${isAdmin ? `<td>
+                        <button class="admin-btn btn-edit" onclick="editSignup(${index})">Edit</button>
+                        <button class="admin-btn btn-delete" onclick="deleteSignup(${index})">Delete</button>
+                    </td>` : ''}
                 `;
                 rosterBody.appendChild(row);
             });
         }
+        
+        adminHeader.style.display = isAdmin ? 'table-cell' : 'none';
+        adminBadge.style.display = isAdmin ? 'inline-block' : 'none';
     }
 
-    // Helper to prevent HTML injection
+    // Helper to sanitize HTML
     function escapeHtml(text) {
         return text.replace(/[&<>"']/g, function(m) {
-            return {
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#039;'
-            }[m];
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
         });
     }
 
-    // Handle Form Submission
+    // Handle Form Submission (Multiple Selection Support)
     form.addEventListener('submit', function(e) {
         e.preventDefault();
 
         const name = document.getElementById('fullName').value.trim();
-        const role = document.getElementById('role').value;
-        const shift = document.getElementById('shift').value;
+        const selectedCheckboxes = document.querySelectorAll('input[name="shiftSlot"]:checked');
 
-        if (name && role && shift) {
-            const signups = JSON.parse(localStorage.getItem('kofc_signups')) || [];
+        if (selectedCheckboxes.length === 0) {
+            alert('Please select at least one shift and role checkbox.');
+            return;
+        }
+
+        const signups = JSON.parse(localStorage.getItem('kofc_signups')) || [];
+
+        selectedCheckboxes.forEach(cb => {
+            const [role, shift] = cb.value.split('|');
             signups.push({ name, role, shift });
+        });
+
+        localStorage.setItem('kofc_signups', JSON.stringify(signups));
+
+        // Reset form
+        form.reset();
+        loadSignups();
+        alert(`Thank you, ${name}! Your shifts have been recorded.`);
+    });
+
+    // Secret Admin Toggle Functions
+    function toggleAdmin() {
+        if (!isAdmin) {
+            const pin = prompt("Enter Admin Passcode:");
+            if (pin === SECRET_PIN) {
+                isAdmin = true;
+                alert("Admin Mode unlocked!");
+            } else if (pin !== null) {
+                alert("Incorrect Passcode.");
+            }
+        } else {
+            isAdmin = false;
+            alert("Exited Admin Mode.");
+        }
+        loadSignups();
+    }
+
+    // Keyboard Shortcut: Ctrl+Shift+A (or Cmd+Shift+A)
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'a') {
+            e.preventDefault();
+            toggleAdmin();
+        }
+    });
+
+    // Click Footer trigger
+    secretTrigger.addEventListener('click', toggleAdmin);
+
+    // Admin Action: Delete
+    window.deleteSignup = function(index) {
+        if (confirm("Are you sure you want to remove this sign-up?")) {
+            const signups = JSON.parse(localStorage.getItem('kofc_signups')) || [];
+            signups.splice(index, 1);
             localStorage.setItem('kofc_signups', JSON.stringify(signups));
-
-            form.reset();
-            loadSignups();
-            alert(`Thank you, ${name}! You are signed up for ${role} (${shift}).`);
-        }
-    });
-
-    // Clear Roster Data
-    clearBtn.addEventListener('click', function() {
-        if (confirm('Are you sure you want to clear all volunteer sign-ups?')) {
-            localStorage.removeItem('kofc_signups');
             loadSignups();
         }
-    });
+    };
+
+    // Admin Action: Edit
+    window.editSignup = function(index) {
+        const signups = JSON.parse(localStorage.getItem('kofc_signups')) || [];
+        const item = signups[index];
+
+        const newName = prompt("Edit Volunteer Name:", item.name);
+        if (newName === null) return;
+
+        const newRole = prompt("Edit Role (Cooking, Drinks, Servers, Cashier, Clean Up, Working the Floor):", item.role);
+        if (newRole === null) return;
+
+        const newShift = prompt("Edit Shift (e.g. 7:00 AM - 9:00 AM):", item.shift);
+        if (newShift === null) return;
+
+        signups[index] = { name: newName.trim(), role: newRole.trim(), shift: newShift.trim() };
+        localStorage.setItem('kofc_signups', JSON.stringify(signups));
+        loadSignups();
+    };
 
     // Initial Load
     loadSignups();
