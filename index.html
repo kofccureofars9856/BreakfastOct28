@@ -22,7 +22,7 @@
         }
 
         .container {
-            max-width: 850px;
+            max-width: 900px;
             margin: 0 auto;
             background: #ffffff;
             padding: 30px;
@@ -49,7 +49,7 @@
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         label.main-label {
@@ -69,7 +69,7 @@
             font-size: 1rem;
         }
 
-        /* Shift Grid Table */
+        /* Grid Table */
         .shift-grid {
             width: 100%;
             border-collapse: collapse;
@@ -94,7 +94,7 @@
             background-color: #f9f9f9;
         }
 
-        .shift-grid input[type="checkbox"] {
+        .shift-grid input[type="radio"] {
             width: 18px;
             height: 18px;
             cursor: pointer;
@@ -110,7 +110,6 @@
             border-radius: 4px;
             cursor: pointer;
             width: 100%;
-            margin-top: 15px;
             transition: background 0.2s;
         }
 
@@ -118,6 +117,7 @@
             background-color: #002244;
         }
 
+        /* Roster Section */
         .roster-section {
             margin-top: 40px;
         }
@@ -136,7 +136,7 @@
 
         .roster-table th, .roster-table td {
             text-align: left;
-            padding: 12px;
+            padding: 10px;
             border-bottom: 1px solid #ddd;
         }
 
@@ -145,8 +145,24 @@
             color: white;
         }
 
-        .roster-table tr:nth-child(even) {
-            background-color: #f9f9f9;
+        .role-header-row td {
+            background-color: #e9ecef;
+            font-weight: bold;
+            color: var(--kofc-blue);
+            font-size: 1.05rem;
+            padding: 12px 10px;
+            border-top: 2px solid #ccc;
+        }
+
+        .shift-sub-row td {
+            background-color: #f4f6f9;
+            font-weight: 600;
+            color: #555;
+            padding-left: 25px;
+        }
+
+        .volunteer-row td {
+            padding-left: 40px;
         }
 
         .no-signups {
@@ -156,7 +172,7 @@
             padding: 20px;
         }
 
-        /* Admin Styles */
+        /* Admin Controls */
         .admin-badge {
             display: none;
             background-color: var(--kofc-gold);
@@ -170,9 +186,9 @@
         }
 
         .admin-btn {
-            padding: 4px 8px;
+            padding: 3px 8px;
             margin-right: 4px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             cursor: pointer;
             border: none;
             border-radius: 3px;
@@ -208,13 +224,15 @@
         </div>
 
         <div class="form-group">
-            <label class="main-label">2. Select Your Shift(s) & Role(s)</label>
-            <p style="font-size:0.9rem; color:#666; margin-top:-5px;">Check as many shifts and roles as you are willing to help with!</p>
+            <label class="main-label">2. Select Your Shift(s) & Position(s)</label>
+            <p style="font-size:0.9rem; color:#666; margin-top:-5px;">
+                You may sign up for multiple shifts, but only <strong>one position per shift</strong>.
+            </p>
             
             <table class="shift-grid">
                 <thead>
                     <tr>
-                        <th>Role</th>
+                        <th>Position</th>
                         <th>7:00 AM - 9:00 AM</th>
                         <th>9:00 AM - 11:00 AM</th>
                         <th>11:00 AM - 1:00 PM</th>
@@ -223,64 +241,64 @@
                 <tbody>
                     <tr>
                         <td>Cooking</td>
-                        <td><input type="checkbox" name="shiftSlot" value="Cooking|7:00 AM - 9:00 AM"></td>
-                        <td><input type="checkbox" name="shiftSlot" value="Cooking|9:00 AM - 11:00 AM"></td>
-                        <td><input type="checkbox" name="shiftSlot" value="Cooking|11:00 AM - 1:00 PM"></td>
+                        <td><input type="radio" name="shift1" value="Cooking|7:00 AM - 9:00 AM"></td>
+                        <td><input type="radio" name="shift2" value="Cooking|9:00 AM - 11:00 AM"></td>
+                        <td><input type="radio" name="shift3" value="Cooking|11:00 AM - 1:00 PM"></td>
                     </tr>
                     <tr>
                         <td>Drinks</td>
-                        <td><input type="checkbox" name="shiftSlot" value="Drinks|7:00 AM - 9:00 AM"></td>
-                        <td><input type="checkbox" name="shiftSlot" value="Drinks|9:00 AM - 11:00 AM"></td>
-                        <td><input type="checkbox" name="shiftSlot" value="Drinks|11:00 AM - 1:00 PM"></td>
+                        <td><input type="radio" name="shift1" value="Drinks|7:00 AM - 9:00 AM"></td>
+                        <td><input type="radio" name="shift2" value="Drinks|9:00 AM - 11:00 AM"></td>
+                        <td><input type="radio" name="shift3" value="Drinks|11:00 AM - 1:00 PM"></td>
                     </tr>
                     <tr>
                         <td>Servers</td>
-                        <td><input type="checkbox" name="shiftSlot" value="Servers|7:00 AM - 9:00 AM"></td>
-                        <td><input type="checkbox" name="shiftSlot" value="Servers|9:00 AM - 11:00 AM"></td>
-                        <td><input type="checkbox" name="shiftSlot" value="Servers|11:00 AM - 1:00 PM"></td>
+                        <td><input type="radio" name="shift1" value="Servers|7:00 AM - 9:00 AM"></td>
+                        <td><input type="radio" name="shift2" value="Servers|9:00 AM - 11:00 AM"></td>
+                        <td><input type="radio" name="shift3" value="Servers|11:00 AM - 1:00 PM"></td>
                     </tr>
                     <tr>
                         <td>Cashier</td>
-                        <td><input type="checkbox" name="shiftSlot" value="Cashier|7:00 AM - 9:00 AM"></td>
-                        <td><input type="checkbox" name="shiftSlot" value="Cashier|9:00 AM - 11:00 AM"></td>
-                        <td><input type="checkbox" name="shiftSlot" value="Cashier|11:00 AM - 1:00 PM"></td>
+                        <td><input type="radio" name="shift1" value="Cashier|7:00 AM - 9:00 AM"></td>
+                        <td><input type="radio" name="shift2" value="Cashier|9:00 AM - 11:00 AM"></td>
+                        <td><input type="radio" name="shift3" value="Cashier|11:00 AM - 1:00 PM"></td>
                     </tr>
                     <tr>
                         <td>Clean Up</td>
-                        <td><input type="checkbox" name="shiftSlot" value="Clean Up|7:00 AM - 9:00 AM"></td>
-                        <td><input type="checkbox" name="shiftSlot" value="Clean Up|9:00 AM - 11:00 AM"></td>
-                        <td><input type="checkbox" name="shiftSlot" value="Clean Up|11:00 AM - 1:00 PM"></td>
+                        <td><input type="radio" name="shift1" value="Clean Up|7:00 AM - 9:00 AM"></td>
+                        <td><input type="radio" name="shift2" value="Clean Up|9:00 AM - 11:00 AM"></td>
+                        <td><input type="radio" name="shift3" value="Clean Up|11:00 AM - 1:00 PM"></td>
                     </tr>
                     <tr>
                         <td>Working the Floor</td>
-                        <td><input type="checkbox" name="shiftSlot" value="Working the Floor|7:00 AM - 9:00 AM"></td>
-                        <td><input type="checkbox" name="shiftSlot" value="Working the Floor|9:00 AM - 11:00 AM"></td>
-                        <td><input type="checkbox" name="shiftSlot" value="Working the Floor|11:00 AM - 1:00 PM"></td>
+                        <td><input type="radio" name="shift1" value="Working the Floor|7:00 AM - 9:00 AM"></td>
+                        <td><input type="radio" name="shift2" value="Working the Floor|9:00 AM - 11:00 AM"></td>
+                        <td><input type="radio" name="shift3" value="Working the Floor|11:00 AM - 1:00 PM"></td>
                     </tr>
                 </tbody>
             </table>
+            <button type="button" onclick="clearSelections()" style="background:none; border:none; color:#777; text-decoration:underline; cursor:pointer; font-size:0.85rem; margin-top:8px;">Clear Selection</button>
         </div>
 
         <button type="submit" class="submit-btn">Complete Sign-Up</button>
     </form>
 
-    <!-- Roster / Who Has Signed Up -->
+    <!-- Grouped Roster Section -->
     <div class="roster-section">
         <h2>
             Volunteer Roster 
             <span id="adminBadge" class="admin-badge">ADMIN MODE ACTIVE</span>
         </h2>
+        
         <table class="roster-table" id="rosterTable">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Role</th>
-                    <th>Shift</th>
-                    <th id="adminHeader" style="display:none;">Actions</th>
+                    <th>Position / Shift / Volunteer</th>
+                    <th id="adminHeader" style="display:none; width: 120px;">Actions</th>
                 </tr>
             </thead>
             <tbody id="rosterBody">
-                <!-- Dynamically populated -->
+                <!-- Grouped Data dynamically populated here -->
             </tbody>
         </table>
         <div id="noDataMessage" class="no-signups">No volunteers have signed up yet.</div>
@@ -292,8 +310,11 @@
 </div>
 
 <script>
-    const SECRET_PIN = "1882"; // Change this passcode if desired
+    const SECRET_PIN = "1882";
     let isAdmin = false;
+
+    const ALL_ROLES = ["Cooking", "Drinks", "Servers", "Cashier", "Clean Up", "Working the Floor"];
+    const ALL_SHIFTS = ["7:00 AM - 9:00 AM", "9:00 AM - 11:00 AM", "11:00 AM - 1:00 PM"];
 
     const form = document.getElementById('signupForm');
     const rosterBody = document.getElementById('rosterBody');
@@ -302,8 +323,163 @@
     const adminHeader = document.getElementById('adminHeader');
     const secretTrigger = document.getElementById('secretTrigger');
 
-    // Load signups from LocalStorage
+    function clearSelections() {
+        document.querySelectorAll('input[type="radio"]').forEach(radio => radio.checked = false);
+    }
+
+    // Load and Group Signups
     function loadSignups() {
+        const signups = JSON.parse(localStorage.getItem('kofc_signups')) || [];
+        rosterBody.innerHTML = '';
+
+        if (signups.length === 0) {
+            noDataMessage.style.display = 'block';
+        } else {
+            noDataMessage.style.display = 'none';
+
+            // Group signups by Position -> Shift -> Volunteers
+            ALL_ROLES.forEach(role => {
+                const roleSignups = signups.filter(s => s.role === role);
+                
+                if (roleSignups.length > 0) {
+                    // Position Header Row
+                    const roleRow = document.createElement('tr');
+                    roleRow.className = 'role-header-row';
+                    roleRow.innerHTML = `<td colspan="${isAdmin ? 2 : 1}">📋 Position: ${escapeHtml(role)}</td>`;
+                    rosterBody.appendChild(roleRow);
+
+                    ALL_SHIFTS.forEach(shift => {
+                        const shiftSignups = roleSignups.filter(s => s.shift === shift);
+                        if (shiftSignups.length > 0) {
+                            // Shift Header Row
+                            const shiftRow = document.createElement('tr');
+                            shiftRow.className = 'shift-sub-row';
+                            shiftRow.innerHTML = `<td colspan="${isAdmin ? 2 : 1}">⏰ ${escapeHtml(shift)}</td>`;
+                            rosterBody.appendChild(shiftRow);
+
+                            // Volunteer Rows
+                            shiftSignups.forEach((item) => {
+                                // Find global index in signups array
+                                const globalIndex = signups.findIndex(s => s === item);
+
+                                const volRow = document.createElement('tr');
+                                volRow.className = 'volunteer-row';
+                                volRow.innerHTML = `
+                                    <td>👤 ${escapeHtml(item.name)}</td>
+                                    ${isAdmin ? `<td>
+                                        <button class="admin-btn btn-edit" onclick="editSignup(${globalIndex})">Edit</button>
+                                        <button class="admin-btn btn-delete" onclick="deleteSignup(${globalIndex})">Delete</button>
+                                    </td>` : ''}
+                                `;
+                                rosterBody.appendChild(volRow);
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        adminHeader.style.display = isAdmin ? 'table-cell' : 'none';
+        adminBadge.style.display = isAdmin ? 'inline-block' : 'none';
+    }
+
+    // Sanitize input
+    function escapeHtml(text) {
+        return text.replace(/[&<>"']/g, function(m) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+        });
+    }
+
+    // Handle Form Submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const name = document.getElementById('fullName').value.trim();
+        const selectedRadios = document.querySelectorAll('input[type="radio"]:checked');
+
+        if (selectedRadios.length === 0) {
+            alert('Please select at least one position and shift.');
+            return;
+        }
+
+        const signups = JSON.parse(localStorage.getItem('kofc_signups')) || [];
+
+        selectedRadios.forEach(radio => {
+            const [role, shift] = radio.value.split('|');
+            signups.push({ name, role, shift });
+        });
+
+        localStorage.setItem('kofc_signups', JSON.stringify(signups));
+
+        form.reset();
+        clearSelections();
+        loadSignups();
+        alert(`Thank you, ${name}! Your sign-up has been recorded.`);
+    });
+
+    // Secret Admin Toggle
+    function toggleAdmin() {
+        if (!isAdmin) {
+            const pin = prompt("Enter Admin Passcode:");
+            if (pin === SECRET_PIN) {
+                isAdmin = true;
+                alert("Admin Mode unlocked!");
+            } else if (pin !== null) {
+                alert("Incorrect Passcode.");
+            }
+        } else {
+            isAdmin = false;
+            alert("Exited Admin Mode.");
+        }
+        loadSignups();
+    }
+
+    // Admin Shortcuts
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'a') {
+            e.preventDefault();
+            toggleAdmin();
+        }
+    });
+
+    secretTrigger.addEventListener('click', toggleAdmin);
+
+    // Admin Delete
+    window.deleteSignup = function(index) {
+        if (confirm("Are you sure you want to remove this volunteer sign-up?")) {
+            const signups = JSON.parse(localStorage.getItem('kofc_signups')) || [];
+            signups.splice(index, 1);
+            localStorage.setItem('kofc_signups', JSON.stringify(signups));
+            loadSignups();
+        }
+    };
+
+    // Admin Edit
+    window.editSignup = function(index) {
+        const signups = JSON.parse(localStorage.getItem('kofc_signups')) || [];
+        const item = signups[index];
+
+        const newName = prompt("Edit Volunteer Name:", item.name);
+        if (newName === null) return;
+
+        const newRole = prompt(`Edit Position (${ALL_ROLES.join(', ')}):`, item.role);
+        if (newRole === null) return;
+
+        const newShift = prompt(`Edit Shift (${ALL_SHIFTS.join(', ')}):`, item.shift);
+        if (newShift === null) return;
+
+        signups[index] = { name: newName.trim(), role: newRole.trim(), shift: newShift.trim() };
+        localStorage.setItem('kofc_signups', JSON.stringify(signups));
+        loadSignups();
+    };
+
+    // Initial Load
+    loadSignups();
+</script>
+
+</body>
+</html>
+unction loadSignups() {
         const signups = JSON.parse(localStorage.getItem('kofc_signups')) || [];
         rosterBody.innerHTML = '';
 
