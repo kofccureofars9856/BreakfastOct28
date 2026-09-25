@@ -427,3 +427,117 @@
 
 </body>
 </html>
+unction loadSignups() {
+        const signups = JSON.parse(localStorage.getItem('kofc_signups')) || [];
+        rosterBody.innerHTML = '';
+
+        if (signups.length === 0) {
+            noDataMessage.style.display = 'block';
+        } else {
+            noDataMessage.style.display = 'none';
+            signups.forEach((signup, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${escapeHtml(signup.name)}</strong></td>
+                    <td>${escapeHtml(signup.role)}</td>
+                    <td>${escapeHtml(signup.shift)}</td>
+                    ${isAdmin ? `<td>
+                        <button class="admin-btn btn-edit" onclick="editSignup(${index})">Edit</button>
+                        <button class="admin-btn btn-delete" onclick="deleteSignup(${index})">Delete</button>
+                    </td>` : ''}
+                `;
+                rosterBody.appendChild(row);
+            });
+        }
+        
+        adminHeader.style.display = isAdmin ? 'table-cell' : 'none';
+        adminBadge.style.display = isAdmin ? 'inline-block' : 'none';
+    }
+
+    // Helper to sanitize HTML
+    function escapeHtml(text) {
+        return text.replace(/[&<>"']/g, function(m) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+        });
+    }
+
+    // Handle Form Submission (Multiple Selection Support)
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const name = document.getElementById('fullName').value.trim();
+        const selectedCheckboxes = document.querySelectorAll('input[name="shiftSlot"]:checked');
+
+        if (selectedCheckboxes.length === 0) {
+            alert('Please select at least one shift and role checkbox.');
+            return;
+        }
+
+        const signups = JSON.parse(localStorage.getItem('kofc_signups')) || [];
+
+        selectedCheckboxes.forEach(cb => {
+            const [role, shift] = cb.value.split('|');
+            signups.push({ name, role, shift });
+        });
+
+        localStorage.setItem('kofc_signups', JSON.stringify(signups));
+
+        // Reset form
+        form.reset();
+        loadSignups();
+        alert(`Thank you, ${name}! Your shifts have been recorded.`);
+    });
+
+    // Secret Admin Toggle Functions
+    function toggleAdmin() {
+        if (!isAdmin) {
+            const pin = prompt("Enter Admin Passcode:");
+            if (pin === SECRET_PIN) {
+                isAdmin = true;
+                alert("Admin Mode unlocked!");
+            } else if (pin !== null) {
+                alert("Incorrect Passcode.");
+            }
+        } else {
+            isAdmin = false;
+            alert("Exited Admin Mode.");
+        }
+        loadSignups();
+    }
+
+    // Keyboard Shortcut: Ctrl+Shift+A (or Cmd+Shift+A)
+    document.addEventListener('keydown', function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'a') {
+            e.preventDefault();
+            toggleAdmin();
+        }
+    });
+
+    // Click Footer trigger
+    secretTrigger.addEventListener('click', toggleAdmin);
+
+    // Admin Action: Delete
+    window.deleteSignup = function(index) {
+        if (confirm("Are you sure you want to remove this sign-up?")) {
+            const signups = JSON.parse(localStorage.getItem('kofc_signups')) || [];
+            signups.splice(index, 1);
+            localStorage.setItem('kofc_signups', JSON.stringify(signups));
+            loadSignups();
+        }
+    };
+
+    // Admin Action: Edit
+    window.editSignup = function(index) {
+        const signups = JSON.parse(localStorage.getItem('kofc_signups')) || [];
+        const item = signups[index];
+
+        const newName = prompt("Edit Volunteer Name:", item.name);
+        if (newName === null) return;
+
+        const newRole = prompt("Edit Role (Cooking, Drinks, Servers, Cashier, Clean Up, Working the Floor):", item.role);
+        if (newRole === null) return;
+
+        const newShift = prompt("Edit Shift (e.g. 7:00 AM - 9:00 AM):", item.shift);
+        if (newShift === null) return;
+
+        signups[index] = { name: newName.trim(), role: newRole.trim(), s
